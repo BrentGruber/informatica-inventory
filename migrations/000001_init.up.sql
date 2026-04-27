@@ -1,0 +1,2 @@
+-- Initial schema placeholder.
+-- Tables for environments, service accounts, resources, sync runs, and sync errors will be added here.
