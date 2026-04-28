@@ -1,7 +1,9 @@
 bin/
 .dist/
 .env
-.env.*
+.env.local
+.env.development
+.env.production
 coverage.out
 vendor/
 .tmp/

@@ -1,0 +1,83 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: informatica-inventory-postgres
+    environment:
+      POSTGRES_USER: inventory
+      POSTGRES_PASSWORD: inventory
+      POSTGRES_DB: inventory
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inventory -d inventory"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  temporal:
+    image: temporalio/auto-setup:1.25.2
+    container_name: informatica-inventory-temporal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB: postgresql
+      DB_PORT: 5432
+      POSTGRES_USER: inventory
+      POSTGRES_PWD: inventory
+      POSTGRES_SEEDS: postgres
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development-sql.yaml
+    ports:
+      - "7233:7233"
+
+  temporal-ui:
+    image: temporalio/ui:2.31.2
+    container_name: informatica-inventory-temporal-ui
+    depends_on:
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
+    ports:
+      - "8088:8080"
+
+  api:
+    image: golang:1.23
+    container_name: informatica-inventory-api
+    working_dir: /app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      temporal:
+        condition: service_started
+    command: ["go", "run", "./cmd/api"]
+    environment:
+      DATABASE_URL: postgres://inventory:inventory@postgres:5432/inventory?sslmode=disable
+      TEMPORAL_ADDRESS: temporal:7233
+      APP_ENV: development
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+
+  worker:
+    image: golang:1.23
+    container_name: informatica-inventory-worker
+    working_dir: /app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      temporal:
+        condition: service_started
+    command: ["go", "run", "./cmd/worker"]
+    environment:
+      DATABASE_URL: postgres://inventory:inventory@postgres:5432/inventory?sslmode=disable
+      TEMPORAL_ADDRESS: temporal:7233
+      APP_ENV: development
+    volumes:
+      - ./:/app
+
+volumes:
+  postgres_data:

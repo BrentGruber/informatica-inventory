@@ -84,6 +84,9 @@ Suggested local stack:
 - Temporal UI
 - Postgres
 
+See also:
+- [Local Docker Compose](deploy/docker-compose.md)
+
 ## What not to start with
 
 Avoid overcomplicating v1 with:
@@ -298,6 +301,7 @@ Later, the system could add:
 
 - [Data model proposal](docs/data-model-proposal.md)
 - [Architecture notes](docs/architecture.md)
+- [Local Docker Compose](deploy/docker-compose.md)
 
 ## SQL-first note
 
