@@ -25,6 +25,20 @@ SET status = $2,
 WHERE id = $1
 RETURNING *;
 
+-- name: MarkSyncRunFailed :one
+UPDATE sync_runs
+SET status = 'failed',
+    finished_at = now(),
+    stats_json = $2,
+    error_summary = $3
+WHERE id = $1
+RETURNING *;
+
+-- name: GetSyncRunByID :one
+SELECT *
+FROM sync_runs
+WHERE id = $1;
+
 -- name: ListRecentSyncRuns :many
 SELECT *
 FROM sync_runs

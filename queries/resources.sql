@@ -49,6 +49,18 @@ DO UPDATE SET
   detail_json = EXCLUDED.detail_json
 RETURNING *;
 
+-- name: GetResourceByExternalID :one
+SELECT *
+FROM resources
+WHERE environment_id = $1
+  AND resource_type_id = $2
+  AND external_id = $3;
+
+-- name: GetResourceByID :one
+SELECT *
+FROM resources
+WHERE id = $1;
+
 -- name: ListResourcesByEnvironmentAndType :many
 SELECT *
 FROM resources
@@ -57,9 +69,17 @@ WHERE environment_id = $1
   AND is_deleted = false
 ORDER BY name ASC;
 
--- name: GetResourceByExternalID :one
+-- name: ListResourcesByEnvironment :many
 SELECT *
 FROM resources
 WHERE environment_id = $1
-  AND resource_type_id = $2
-  AND external_id = $3;
+  AND is_deleted = false
+ORDER BY resource_type_id, name ASC;
+
+-- name: MarkResourceDeleted :one
+UPDATE resources
+SET is_deleted = true,
+    last_seen_at = now(),
+    last_synced_at = $2
+WHERE id = $1
+RETURNING *;
