@@ -284,6 +284,11 @@ Later, the system could add:
 - web UI
 - audit and compliance views
 
+## Supporting docs
+
+- [Data model proposal](docs/data-model-proposal.md)
+- [Architecture notes](docs/architecture.md)
+
 ## Final recommendation
 
 Start simple and make the execution model trustworthy.
