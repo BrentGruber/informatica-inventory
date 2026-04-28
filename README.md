@@ -301,6 +301,7 @@ Later, the system could add:
 
 - [Data model proposal](docs/data-model-proposal.md)
 - [Architecture notes](docs/architecture.md)
+- [Python + Celery workflow proposal](docs/python-celery-workflows.md)
 - [Local Docker Compose](deploy/docker-compose.md)
 
 ## SQL-first note
