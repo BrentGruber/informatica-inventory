@@ -62,12 +62,13 @@ Why:
 - relational structure maps well to environments, resources, sync runs, and errors
 
 ### Database access
-- **sqlc + pgx**
+- **raw SQL + sqlc + pgx**
 
 Why:
-- typed query generation
-- explicit SQL control
-- avoids heavy ORM complexity early
+- SQL remains the source of truth
+- typed query generation without ORM behavior
+- explicit control over upserts, JSONB, and graph-friendly queries
+- avoids heavy ORM complexity entirely
 
 ### Logging and migrations
 - **Zap** for structured logging
@@ -90,7 +91,7 @@ Avoid overcomplicating v1 with:
 - RabbitMQ
 - Kubernetes-first deployment
 - GraphQL
-- a heavyweight ORM
+- any ORM
 - too many microservices
 
 A very reasonable v1 is:
@@ -137,6 +138,12 @@ Suggested core tables:
 - `sync_runs`
 - `sync_tasks`
 - `sync_errors`
+
+Recommended persistence approach:
+- raw SQL migrations
+- raw SQL query files
+- `sqlc` for typed code generation
+- `pgx` as the driver
 
 ## Workflow model
 
@@ -239,6 +246,7 @@ Defer until later:
   /api
   /config
   /db
+    /sqlc
   /informatics
   /logging
   /models
@@ -249,8 +257,10 @@ Defer until later:
     /workflows
   /normalize
 /migrations
+/queries
 /docs
 /deploy
+sqlc.yaml
 ```
 
 ## Suggested v1 priorities
@@ -288,6 +298,16 @@ Later, the system could add:
 
 - [Data model proposal](docs/data-model-proposal.md)
 - [Architecture notes](docs/architecture.md)
+
+## SQL-first note
+
+This project should stay SQL-first.
+
+That means:
+- schema changes in raw SQL
+- application queries in raw SQL files
+- generated typed accessors via `sqlc`
+- no ORM layer
 
 ## Final recommendation
 
