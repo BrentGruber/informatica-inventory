@@ -1,0 +1,101 @@
+[
+  {
+    "code": "folder",
+    "name": "Folder",
+    "api_collection_path": "/public/core/v3/folders",
+    "api_detail_path_template": "/public/core/v3/folders/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Logical container for assets and projects. Good early candidate for hierarchy and path modeling."
+  },
+  {
+    "code": "connection",
+    "name": "Connection",
+    "api_collection_path": "/public/core/v3/connections",
+    "api_detail_path_template": "/public/core/v3/connections/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Important for graph modeling because many tasks and mappings depend on connections."
+  },
+  {
+    "code": "mapping",
+    "name": "Mapping",
+    "api_collection_path": "/public/core/v3/mappings",
+    "api_detail_path_template": "/public/core/v3/mappings/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Core design artifact for data movement and transformation logic."
+  },
+  {
+    "code": "mapping_task",
+    "name": "Mapping Task",
+    "api_collection_path": "/public/core/v3/mttasks",
+    "api_detail_path_template": "/public/core/v3/mttasks/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Likely high-value v1 type because it connects mappings, schedules, and runtime behavior."
+  },
+  {
+    "code": "task",
+    "name": "Task",
+    "api_collection_path": "/public/core/v3/tasks",
+    "api_detail_path_template": "/public/core/v3/tasks/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Generic task inventory entry when task subtypes are surfaced through a broader endpoint."
+  },
+  {
+    "code": "taskflow",
+    "name": "Taskflow",
+    "api_collection_path": "/public/core/v3/taskflows",
+    "api_detail_path_template": "/public/core/v3/taskflows/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Useful for orchestration graph views and task dependency expansion."
+  },
+  {
+    "code": "schedule",
+    "name": "Schedule",
+    "api_collection_path": "/public/core/v3/schedules",
+    "api_detail_path_template": "/public/core/v3/schedules/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Useful for operational metadata and graph relationships from jobs to schedules."
+  },
+  {
+    "code": "runtime_environment",
+    "name": "Runtime Environment",
+    "api_collection_path": "/public/core/v3/runtimeEnvironments",
+    "api_detail_path_template": "/public/core/v3/runtimeEnvironments/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Represents Secure Agent groups or runtime execution contexts when exposed by the API."
+  },
+  {
+    "code": "secure_agent",
+    "name": "Secure Agent",
+    "api_collection_path": "/public/core/v3/agents",
+    "api_detail_path_template": "/public/core/v3/agents/{id}",
+    "is_enabled": true,
+    "supports_detail_fetch": true,
+    "notes": "Useful for environment inventory and runtime troubleshooting views."
+  },
+  {
+    "code": "source_object",
+    "name": "Source Object",
+    "api_collection_path": null,
+    "api_detail_path_template": null,
+    "is_enabled": false,
+    "supports_detail_fetch": false,
+    "notes": "Placeholder logical type for extracted source-side objects discovered through task or mapping details rather than first-class list APIs."
+  },
+  {
+    "code": "target_object",
+    "name": "Target Object",
+    "api_collection_path": null,
+    "api_detail_path_template": null,
+    "is_enabled": false,
+    "supports_detail_fetch": false,
+    "notes": "Placeholder logical type for extracted target-side objects discovered through task or mapping details rather than first-class list APIs."
+  }
+]
